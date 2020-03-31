@@ -3,28 +3,18 @@ const { uuid } = require('uuidv4');
 const tasks = [
   {
     id: uuid(),
-    title: "something game",
+    title: "Something",
     isComplete: true
   },
   {
     id: uuid(),
-    title: "something not so important",
+    title: "Something not so important",
     isComplete: false
   },
   {
     id: uuid(),
-    title: "something stupid",
+    title: "Something stupid",
     isComplete: false
-  },
-  {
-    id: uuid(),
-    title: "dayum son stupid",
-    isComplete: false
-  },
-  {
-    id: uuid(),
-    title: "bruh son stupid",
-    isComplete: true
   }
 ];
 
