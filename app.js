@@ -2,10 +2,17 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 const uuid = require('uuid');
 require('dotenv/config');
 const tasks = require('./tasks');
 const PORT = process.env.PORT || 3030
+
+// create application/json parser
+var jsonParser = bodyParser.json()
+
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 mongoose.connect(
     process.env.TMDB_CONNECTION,
@@ -29,6 +36,19 @@ app.get('/api/tasks', (req, res) => {
         if (err) throw err;
         res.json(result)
     })
+});
+
+app.post('/addtask', jsonParser, (req, res) => {
+    let Task = mongoose.model('Task');
+    let addtask = new Task({ id: uuid.v4(), title: req.body.title, isComplete: req.body.isComplete });
+    addtask.save().then(() => console.log("Task added."))
+    res.send("Task added.")
+});
+
+app.post('/deletetask', jsonParser, (req, res) => {
+    const Task = mongoose.model('Task');
+    Task.find({"id": req.body.id }).deleteOne().exec();
+    res.send("Task deleted.")
 })
 
 app.get("/", (req, res) => {
